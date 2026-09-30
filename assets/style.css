@@ -1,4 +1,7 @@
 /* N.ART Móveis · Marcenaria de Planejados */
+/* Jost servida pelo próprio site. A reserva (Arial ajustada) tem as medidas da Jost para o texto não pular ao trocar */
+@font-face { font-family: "Jost"; src: url("fonts/jost-latin.woff2") format("woff2"); font-weight: 200 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Jost Fallback"; src: local("Arial"); size-adjust: 93.8%; ascent-override: 114%; descent-override: 40%; line-gap-override: 0%; }
 :root {
   --bg: #ecebe8;
   --bg-2: #e2e1dd;
@@ -14,7 +17,7 @@
   --line-dark: rgba(241, 240, 237, 0.16);
   --wa: #1c7f4b;
   --wa-hover: #156a3d;
-  --font: "Jost", "Futura", "Helvetica Neue", Arial, sans-serif;
+  --font: "Jost", "Jost Fallback", Arial, sans-serif;
   --gutter: clamp(16px, 3.4vw, 56px);
   --radius: 3px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -358,7 +361,7 @@ h1, h2, h3, p, figure, ol, dl, dd, blockquote { margin: 0; }
   :root { --header-h: 64px; }
   .logo__mark { width: 28px; height: 27px; }
   .logo__name { font-size: 19px; }
-  .header__cta span { display: none; }
+  .header__cta span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .header__cta { width: 40px; padding: 0; }
   .bar__share span { display: none; }
   .bar__share { padding-left: 18px; }
@@ -478,3 +481,83 @@ h1, h2, h3, p, figure, ol, dl, dd, blockquote { margin: 0; }
   .lb__nav--prev { left: -6px; }
   .lb__nav--next { right: -6px; }
 }
+
+/* ==========================================================
+   Ritmo de espaçamento único, fluido em todas as larguras
+   ========================================================== */
+:root {
+  --sp-section: clamp(64px, 8.5vw, 136px);  /* entre seções */
+  --sp-head: clamp(32px, 4.5vw, 64px);      /* título da seção → conteúdo */
+  --sp-eyebrow: clamp(14px, 1.4vw, 20px);   /* rótulo → título */
+  --sp-text: clamp(18px, 2vw, 28px);        /* título → texto */
+  --sp-cta: clamp(26px, 2.8vw, 40px);       /* texto → botão */
+}
+.gallery, .story, .promise, .steps, .about, .custom { padding-block: var(--sp-section); }
+.reviews { padding: 0 0 var(--sp-section); }
+.sec-head { margin-bottom: var(--sp-head); gap: var(--sp-eyebrow); }
+.gallery .sec-head { margin-bottom: 0; }
+.bar { margin: var(--sp-text) 0 var(--sp-head); }
+
+/* Abertura */
+.hero { padding: clamp(32px, 5vw, 72px) 0 var(--sp-section); }
+.hero__eyebrow { margin-bottom: var(--sp-eyebrow); }
+.hero__lead { margin: var(--sp-text) 0 var(--sp-cta); }
+.hero__stats { margin-top: var(--sp-cta); }
+@media (max-width: 1200px) { .hero__caption { display: none; } }
+@media (max-width: 900px) {
+  .hero__media { max-width: none; aspect-ratio: 4 / 3; margin-top: var(--sp-text); }
+  .hero__main { inset: 0 0 10% 18%; }
+  .hero__inset { width: 32%; }
+  .hero__lead { margin-top: var(--sp-text); }
+}
+@media (max-width: 620px) {
+  .hero__media { aspect-ratio: 1 / 1; }
+  .hero__main { inset: 0 0 8% 14%; }
+  .hero__inset { width: 40%; }
+  .hero__stats { margin: 0 0 var(--sp-cta); }
+}
+
+/* História */
+.story__body .sec-head { margin-bottom: var(--sp-text); }
+.story__body > p { margin-bottom: 14px; }
+.story__quote { margin-top: var(--sp-cta); }
+@media (max-width: 900px) {
+  .story__media { aspect-ratio: 4 / 3; max-width: 720px; }
+  .story__a { inset: 0 22% 12% 0; }
+  .story__b { width: 36%; aspect-ratio: 4 / 5; }
+}
+
+/* Compromisso */
+.promise__title { max-width: 16ch; margin-top: var(--sp-eyebrow); }
+.promise__side p { margin-bottom: var(--sp-cta); }
+@media (max-width: 900px) {
+  .promise__inner { gap: var(--sp-text); }
+  .promise__title { max-width: 20ch; }
+}
+
+/* Como funciona */
+.step__num { margin-bottom: var(--sp-text); }
+@media (min-width: 621px) and (max-width: 900px) {
+  .steps__list { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step__num { font-size: 56px; }
+}
+
+/* Avaliações e diferenciais */
+.reviews__grid { gap: clamp(12px, 1.6vw, 24px); }
+@media (min-width: 621px) and (max-width: 900px) {
+  .reviews__grid { grid-template-columns: repeat(3, 1fr); }
+  .review { padding: 22px; }
+  .review blockquote { font-size: 16px; }
+}
+
+/* Projeto próprio */
+.custom__title { margin: var(--sp-eyebrow) 0 var(--sp-text); }
+.custom__text { margin-bottom: var(--sp-cta); }
+
+/* Rodapé */
+.footer { padding-top: var(--sp-section); }
+.footer__copy { margin-top: var(--sp-head); }
+
+/* Página de projetos */
+.gallery--catalog { padding-top: clamp(40px, 6vw, 88px); }
+.catalog__head { gap: var(--sp-eyebrow); }

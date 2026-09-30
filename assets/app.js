@@ -14,8 +14,14 @@
   const photoUrl = (p) => `${base}?foto=${p.id}`;
   const catUrl = (c) => (c ? `${base}?ambiente=${c.slug}` : base);
   const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  // Fotos locais usam as versões menores geradas por tools/otimizar-fotos.py
+  const small = (src, w) => `${src.replace(/\.[a-z]+$/i, '')}-${w}.webp`;
   const srcset = (src) => (src.includes('images.unsplash.com')
-    ? `srcset="${sized(src, 600)} 600w, ${sized(src, 900)} 900w, ${sized(src, 1300)} 1300w"` : '');
+    ? `srcset="${sized(src, 600)} 600w, ${sized(src, 900)} 900w, ${sized(src, 1300)} 1300w"`
+    : `srcset="${small(src, 480)} 480w, ${small(src, 640)} 640w, ${small(src, 800)} 800w, ${small(src, 1200)} 1200w"`);
+  const cardSrc = (src) => (src.includes('images.unsplash.com') ? sized(src, 900) : small(src, 800));
+  // Na página de projetos o h1 é o título da página, então os cards são h2
+  const H = document.body.classList.contains('page-catalog') ? 'h2' : 'h3';
   const esc = (s) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
   // Mensagem pronta do projeto + link da foto, para a equipe saber qual modelo é
@@ -59,14 +65,14 @@
     const items = list();
     grid.innerHTML = items.map((p, i) => `
       <article class="card">
-        <button class="card__media" data-open="${i}" aria-label="Ampliar foto: ${esc(p.title)}">
-          <img src="${sized(p.src, 900)}" ${srcset(p.src)}
-            sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 33vw" alt="${esc(p.alt)}" loading="${i < 3 ? 'eager' : 'lazy'}">
+        <button class="card__media" data-open="${i}" aria-label="Ver ${p.photos.length > 1 ? `${p.photos.length} fotos` : 'foto'}: ${esc(p.title)}">
+          <img src="${cardSrc(p.src)}" ${srcset(p.src)}
+            sizes="(max-width: 620px) 50vw, (max-width: 1080px) 50vw, 33vw" width="1170" height="1462" alt="${esc(p.alt)}"${H === 'h2' && i < 3 ? (i === 0 ? ' fetchpriority="high"' : '') : ' loading="lazy"'}>
           <span class="card__veil" aria-hidden="true"><span class="card__open"><svg class="i"><use href="#i-zoom"/></svg>Ver ${p.photos.length > 1 ? `${p.photos.length} fotos` : 'foto'}</span></span>
         </button>
         <div class="card__body">
           <p class="card__meta"><span class="card__tag">${esc(p.tag)}</span></p>
-          <h3 class="card__title">${esc(p.title)}</h3>
+          <${H} class="card__title">${esc(p.title)}</${H}>
           <p class="card__details">${esc(p.details)}</p>
           <a class="card__cta" href="${projectLink(p)}" target="_blank" rel="noopener">
             <svg class="i"><use href="#i-wa"/></svg><span class="card__cta-full">${esc(p.cta)}</span><span class="card__cta-short">Orçamento</span><svg class="i card__arrow"><use href="#i-r"/></svg></a>
@@ -82,7 +88,7 @@
       const on = b.dataset.chip === (current ? current.slug : '');
       b.setAttribute('aria-selected', on);
       // Centraliza a aba ativa só na faixa de filtros, sem rolar a página
-      if (on) chipsEl.scrollTo({ left: b.offsetLeft - (chipsEl.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
+      if (on && current) chipsEl.scrollTo({ left: b.offsetLeft - (chipsEl.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
     });
 
     // Em link compartilhado, oferece as outras categorias no fim

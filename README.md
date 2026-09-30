@@ -24,6 +24,20 @@ O botão de cada card abre o WhatsApp (43) 99699-8786 com a mensagem pronta do m
 
 As fotos ficam em `assets/fotos/<categoria>/`. Em `assets/data.js`, cada projeto tem `photos` (nome do arquivo com extensão, a primeira é a capa), `title`, `details` e, se quiser, `cta` e `msg`. Categoria sem projetos fica escondida, como Closets & Quartos e Banheiros hoje.
 
+## Fotos novas
+
+Depois de colocar fotos em `assets/fotos/<categoria>/`, rode na pasta do projeto:
+
+```bash
+python tools/otimizar-fotos.py
+```
+
+O script cria versões de 480, 640, 800 e 1200 px em WebP, que o site usa para carregar rápido no celular. A foto original continua na tela cheia.
+
+## Desempenho
+
+Nota 100 no PageSpeed Insights (desempenho, acessibilidade, boas práticas e SEO), no celular e no computador. A fonte Jost é servida pelo próprio site (`assets/fonts`), com uma fonte de reserva ajustada para o texto não pular ao carregar. O `vercel.json` define o cache dos arquivos.
+
 ## Identidade
 
 Cores tiradas da logo (preto, grafite e cinza claro) e fonte Jost. O símbolo do N foi redesenhado em vetor e está no `index.html` (símbolo `#nart`), em `assets/logo.svg` e em `assets/favicon.svg`. A logo original está em `assets/brand/logo-original.webp`.
