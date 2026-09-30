@@ -50,4 +50,4 @@ python -m http.server 4333
 
 ## Antes de ir ao ar
 
-O site está em https://nart-jet.vercel.app/. A prévia do link no WhatsApp usa `assets/og.jpg` (1200 × 630), gerada a partir de `tools/og.html`. Se o endereço mudar, atualize `og:url` e `og:image` nas duas páginas. Ao atualizar CSS ou JS, aumente o `?v=` nos links do `index.html`.
+O site está em https://nart-moveis.vercel.app/. A prévia do link no WhatsApp usa `assets/og.jpg` (1200 × 630), gerada a partir de `tools/og.html`. Se o endereço mudar, atualize `og:url` e `og:image` nas duas páginas. Ao atualizar CSS ou JS, aumente o `?v=` nos links do `index.html`.
